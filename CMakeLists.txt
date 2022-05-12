@@ -128,4 +128,4 @@ ELSE()
 		#Link the Linux OpenGL library
 		TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME} "GL")
 	ENDIF()
-ENDIF() 
+ENDIF()
