@@ -9,21 +9,20 @@ Camera::Camera() {
 
 Camera::Camera(int width, int height, float fov, float distance, char axis, int direction) {
 	// float aspectRatio = (float) width / (float) height;
-	float heightHalfSquare = (2 * glm::tan(glm::radians(fov/2)) / height)/2;
-	
-	float y = heightHalfSquare * (height - 1);
-	for (int i = 0; i < height; i++) {
-		float x = heightHalfSquare * (width - 1) * (-1);
-		for (int j = 0; j < width; j++) {
-			glm::vec3 square = glm::vec3(x, y, distance);
-			glm::vec3 direction = square - glm::vec3(0, 0, distance);
-			float magnitude = glm::sqrt(glm::pow(direction.x, 2) + glm::pow(direction.y, 2) + glm::pow(direction.z, 2));
-			direction = glm::vec3(direction.x / magnitude, direction.y / magnitude, direction.z / magnitude);
-			rays.push_back(glm::vec3(direction.x, direction.y, direction.z));
+	glm::vec3 cam = glm::vec3(0, 0, distance);
 
-			x += heightHalfSquare * 2;
+	float heightOneSquare = 2 * glm::tan(glm::radians(fov / 2)) / height;
+	float heightHalfSquare = heightOneSquare / 2;
+
+	// used to translate the plane to make the middle (0,0)
+	float fullPlaneMiddle = heightOneSquare * height / 2;
+
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			glm::vec3 p = glm::vec3((j * heightOneSquare + heightHalfSquare) - fullPlaneMiddle, (i * heightOneSquare + heightHalfSquare) - fullPlaneMiddle, distance + direction);
+			glm::vec3 dir = glm::normalize(p - cam);
+			rays.push_back(dir);
 		}
-		y -= heightHalfSquare * 2;
 	}
 	for (auto i : rays) cout << i.x << " " << i.y << " " << i.z << endl;
 }

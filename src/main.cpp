@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	shared_ptr<Camera> cam = make_shared<Camera>(3, 3, 60, 5, 'z', -1);
+	shared_ptr<Camera> cam = make_shared<Camera>(3, 3, 45, 5, 'z', -1);
 	
 	//image->writeToFile(filename);
 	return 0;
