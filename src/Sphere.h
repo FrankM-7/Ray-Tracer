@@ -9,10 +9,12 @@
 class Sphere : public Shape
 {
 private:
-
+	float radius;
 public:
 	Sphere();
-	bool hit(glm::vec3 ray) override;
+	void hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex) override;
+	void scale(float radius);
+
 };
 
 #endif

@@ -7,6 +7,15 @@
 #include <vector>
 #include "Shape.h"
 #include "Camera.h"
+#include "Image.h"
+
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -19,7 +28,7 @@ public:
 	Scene();
 	void addObject(shared_ptr<Shape> object);
 	void addCamera(shared_ptr<Camera> camera);
-	void draw();
+	void draw(shared_ptr<Image> image);
 };
 
 #endif
