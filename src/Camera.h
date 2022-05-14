@@ -19,11 +19,17 @@ class Camera
 { 
 private:
 	vector<glm::vec3> rays;
+	vector<int> testing; 
 public:
+
 	Camera();
 	
 	// width and height of the image; float fov (angle between axis and top of rayplane) distance on the axis; axis options: x, y, z; direction camera is looking (-1 or 1)
 	Camera(int width, int height, float fov, float distance, char axis, int direction);
+
+	vector<glm::vec3> getRays();
+
+	vector<glm::vec3> getVector();
 
 };
 

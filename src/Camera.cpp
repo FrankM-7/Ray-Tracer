@@ -24,5 +24,19 @@ Camera::Camera(int width, int height, float fov, float distance, char axis, int 
 			rays.push_back(dir);
 		}
 	}
-	for (auto i : rays) cout << i.x << " " << i.y << " " << i.z << endl;
+	cout << rays.size() << endl;
+	testing.push_back(1);
+}
+
+vector<glm::vec3> Camera::getRays() {
+	return this->rays;
+}
+
+vector<glm::vec3> Camera::getVector() {
+	vector<glm::vec3> ret;
+	cout << "rays size: " << this->testing.size() << endl;
+	for (int i = 0; i < 5; i++) {
+		ret.push_back(glm::vec3(i,i,i));
+	}
+	return ret;
 }
