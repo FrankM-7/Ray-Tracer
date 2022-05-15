@@ -22,12 +22,12 @@ using namespace std;
 class Scene
 {
 private:
-	vector<shared_ptr<Shape>> objects;
+	vector<Shape*> objects;
 	shared_ptr<Camera> camera;
 	vector<Light> lights;
 public:
 	Scene();
-	void addObject(shared_ptr<Shape> object);
+	void addObject(Shape* object);
 	void addCamera(shared_ptr<Camera> camera);
 	void draw(shared_ptr<Image> image);
 	void addLight(Light light);

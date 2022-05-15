@@ -30,18 +30,23 @@ struct Hit
 class Shape
 {
 private:
-
-public:
-	glm::vec3 center;
-	Shape();
-	virtual void hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex);
-	void translate(float x, float y, float z);
-
-	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos);
 	glm::vec3 ka;
 	glm::vec3 kd;
 	glm::vec3 ks;
 	float s;
+public:
+	glm::vec3 center;
+	Shape();
+	virtual void hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex);
+	virtual bool intersects(glm::vec3 ray, glm::vec3 originRay, float distance);
+
+	void translate(float x, float y, float z);
+	void diffuse(float r, float g, float b);
+	void ambient(float r, float g, float b);
+	void shiny(float s);
+	void specular(float r, float g, float b);
+
+	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects);
 };
 
 #endif

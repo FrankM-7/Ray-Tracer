@@ -32,20 +32,57 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	int widthHeight = 1024;
-	shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
-	shared_ptr<Scene> scene = make_shared<Scene>();
-	shared_ptr<Shape> sphere = make_shared<Sphere>();
-	Light light;
-	light.position = glm::vec3(0, 3, 2);
-	scene->addObject(sphere);
-	scene->addCamera(cam);
-	scene->addLight(light);
+	
 
-	auto image = make_shared<Image>(widthHeight, widthHeight);
 
-	scene->draw(image);
+	
 
-	image->writeToFile("filename.png");
+
+	int sceneChoice = 1;
+	if (sceneChoice == 1) {
+		int widthHeight = 1024;
+		auto image = make_shared<Image>(widthHeight, widthHeight);
+
+		shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
+		shared_ptr<Scene> scene = make_shared<Scene>();
+
+		Shape* redSphere = new Sphere();
+		redSphere->translate(-.5, -1, 1);
+		redSphere->diffuse(1, 0, 0);
+		redSphere->specular(1, 1, .5);
+		redSphere->ambient(.1, .1, .1);
+		redSphere->shiny(100);
+
+		
+		Shape* greenSphere = new Sphere();
+		greenSphere->translate(.5, -1, -1);
+		greenSphere->diffuse(0, 1, 0);
+		greenSphere->specular(1, 1, .5);
+		greenSphere->ambient(.1, .1, .1);
+		greenSphere->shiny(100);
+
+		Shape* blueSphere = new Sphere();
+		blueSphere->translate(0, 1, 0);
+		blueSphere->diffuse(0, 0, 1);
+		blueSphere->specular(1, 1, .5);
+		blueSphere->ambient(.1, .1, .1);
+		blueSphere->shiny(100);
+
+		Light light(-2, 1, 1);
+
+		scene->addObject(redSphere);
+		scene->addObject(blueSphere);
+		scene->addObject(greenSphere);
+
+		scene->addCamera(cam);
+		scene->addLight(light);
+
+		scene->draw(image);
+
+		image->writeToFile("filename.png");
+	}
+
+	ShellExecuteW(NULL, L"open", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\filename.png", L"", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\", SW_SHOW);
+
 	return 0;
 }
