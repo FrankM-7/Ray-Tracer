@@ -32,12 +32,15 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	int widthHeight = 300;
+	int widthHeight = 1024;
 	shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
 	shared_ptr<Scene> scene = make_shared<Scene>();
 	shared_ptr<Shape> sphere = make_shared<Sphere>();
+	Light light;
+	light.position = glm::vec3(0, 3, 2);
 	scene->addObject(sphere);
 	scene->addCamera(cam);
+	scene->addLight(light);
 
 	auto image = make_shared<Image>(widthHeight, widthHeight);
 

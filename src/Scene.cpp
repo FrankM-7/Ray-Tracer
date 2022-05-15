@@ -14,6 +14,10 @@ void Scene::addObject(shared_ptr<Shape> object) {
 	this->objects.push_back(object);
 }
 
+void Scene::addLight(Light light) {
+	this->lights.push_back(light);
+}
+
 void Scene::draw(shared_ptr<Image> image) {
 	// for every ray
 	int ctx = 0;
@@ -38,8 +42,8 @@ void Scene::draw(shared_ptr<Image> image) {
 				}
 			}
 			// i have normal, eyevec, light vec. calc blinnphong
-			objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin);
-			image->setPixel(ctx, cty, 0, 155, 255);
+			glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin);
+			image->setPixel(ctx, cty, color.r, color.g, color.b);
 		}
 		ctx = (ctx + 1) % camera->width;
 		if (ctx == 0) cty += 1;
