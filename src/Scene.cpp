@@ -38,7 +38,7 @@ void Scene::draw(shared_ptr<Image> image) {
 				}
 			}
 			// i have normal, eyevec, light vec. calc blinnphong
-			objects.at(lowestHit.objIndex)->getColor(lights, lowestHit);
+			objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin);
 			image->setPixel(ctx, cty, 0, 155, 255);
 		}
 		ctx = (ctx + 1) % camera->width;
