@@ -24,13 +24,13 @@ class Scene
 private:
 	vector<shared_ptr<Shape>> objects;
 	shared_ptr<Camera> camera;
-	vector<shared_ptr<Light>> lights;
+	vector<Light> lights;
 public:
 	Scene();
 	void addObject(shared_ptr<Shape> object);
 	void addCamera(shared_ptr<Camera> camera);
 	void draw(shared_ptr<Image> image);
-	void addLight(shared_ptr<Light> light);
+	void addLight(Light light);
 };
 
 #endif

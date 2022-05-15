@@ -19,7 +19,7 @@ using namespace std;
 
 struct Hit
 {
-	Hit() : x(0), n(0), t(0) {}
+	Hit() : x(0), n(0), t(0), objIndex(0) {}
 	Hit(const glm::vec3& x, const glm::vec3& n, float t, int objIndex) { this->x = x; this->n = n; this->t = t; this->objIndex = objIndex; }
 	glm::vec3 x; // position
 	glm::vec3 n; // normal
