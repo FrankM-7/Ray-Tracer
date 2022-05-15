@@ -12,6 +12,9 @@
 
 #include "Image.h"
 #include "Camera.h"
+#include "Scene.h"
+#include "Shape.h"
+#include "Sphere.h"
 
 using namespace std;
 
@@ -29,8 +32,17 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	shared_ptr<Camera> cam = make_shared<Camera>(3, 3, 45, 5, 'z', -1);
-	
-	//image->writeToFile(filename);
+	int widthHeight = 300;
+	shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
+	shared_ptr<Scene> scene = make_shared<Scene>();
+	shared_ptr<Shape> sphere = make_shared<Sphere>();
+	scene->addObject(sphere);
+	scene->addCamera(cam);
+
+	auto image = make_shared<Image>(widthHeight, widthHeight);
+
+	scene->draw(image);
+
+	image->writeToFile("filename.png");
 	return 0;
 }

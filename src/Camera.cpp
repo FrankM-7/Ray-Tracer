@@ -9,7 +9,7 @@ Camera::Camera() {
 
 Camera::Camera(int width, int height, float fov, float distance, char axis, int direction) {
 	// float aspectRatio = (float) width / (float) height;
-	glm::vec3 cam = glm::vec3(0, 0, distance);
+	this->origin = glm::vec3(0, 0, distance);
 
 	float heightOneSquare = 2 * glm::tan(glm::radians(fov / 2)) / height;
 	float heightHalfSquare = heightOneSquare / 2;
@@ -20,9 +20,10 @@ Camera::Camera(int width, int height, float fov, float distance, char axis, int 
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			glm::vec3 p = glm::vec3((j * heightOneSquare + heightHalfSquare) - fullPlaneMiddle, (i * heightOneSquare + heightHalfSquare) - fullPlaneMiddle, distance + direction);
-			glm::vec3 dir = glm::normalize(p - cam);
+			glm::vec3 dir = glm::normalize(p - origin);
 			rays.push_back(dir);
 		}
 	}
-	for (auto i : rays) cout << i.x << " " << i.y << " " << i.z << endl;
+	this->height = height;
+	this->width = width;
 }
