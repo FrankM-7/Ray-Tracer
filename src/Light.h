@@ -16,6 +16,7 @@ public:
 	glm::vec3 position;
 	Light();
 	Light(float x, float y, float z);
+	float intensity;
 };
 
 #endif

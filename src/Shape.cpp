@@ -40,7 +40,7 @@ glm::vec3 Shape::getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vecto
 		glm::vec3 hHat = glm::normalize(eHat + lHat);
 		glm::vec3 cd = kd * glm::max(0.0f, glm::dot(lHat, nHat));
 		glm::vec3 cs = ks * glm::max(0.0f, glm::pow(glm::dot(hHat, nHat), this->s));
-		c += cs + cd;
+		c += lights.at(i).intensity*(cs + cd);
 	}
 	c *= 255.0f;
 	c = glm::clamp(c, 0.0f, 255.0f);

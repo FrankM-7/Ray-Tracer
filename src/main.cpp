@@ -46,36 +46,22 @@ int main(int argc, char **argv)
 		shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
 		shared_ptr<Scene> scene = make_shared<Scene>();
 
-		Shape* redSphere = new Sphere();
-		redSphere->translate(-.5, -1, 1);
-		redSphere->diffuse(1, 0, 0);
-		redSphere->specular(1, 1, .5);
-		redSphere->ambient(.1, .1, .1);
-		redSphere->shiny(100);
-
+		Light light(1, 2, 2);
+		light.intensity = .5;
+		Light light2(-1, 2, -1);
+		light2.intensity = .5;
 		
 		Shape* greenSphere = new Sphere();
-		greenSphere->translate(.5, -1, -1);
+		greenSphere->translate(-.5, 0, -.5);
 		greenSphere->diffuse(0, 1, 0);
 		greenSphere->specular(1, 1, .5);
 		greenSphere->ambient(.1, .1, .1);
 		greenSphere->shiny(100);
 
-		Shape* blueSphere = new Sphere();
-		blueSphere->translate(0, 1, 0);
-		blueSphere->diffuse(0, 0, 1);
-		blueSphere->specular(1, 1, .5);
-		blueSphere->ambient(.1, .1, .1);
-		blueSphere->shiny(100);
-
-		Light light(-2, 1, 1);
-
-		scene->addObject(redSphere);
-		scene->addObject(blueSphere);
-		scene->addObject(greenSphere);
-
 		scene->addCamera(cam);
 		scene->addLight(light);
+		scene->addLight(light2);
+		scene->addObject(greenSphere);
 
 		scene->draw(image);
 
