@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "Shape.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 using namespace std;
 
@@ -58,10 +59,13 @@ int main(int argc, char **argv)
 		greenSphere->ambient(.1, .1, .1);
 		greenSphere->shiny(100);
 
+		Shape* planeGround = new Plane();
+
 		scene->addCamera(cam);
 		scene->addLight(light);
 		scene->addLight(light2);
 		scene->addObject(greenSphere);
+		scene->addObject(planeGround);
 
 		scene->draw(image);
 

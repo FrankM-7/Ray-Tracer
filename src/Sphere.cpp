@@ -17,18 +17,21 @@ void Sphere::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objInde
 
 	if (d > 0) {
 		float t = (-b + glm::sqrt(d)) / (2 * a);
-		glm::vec3 x = origin + t * ray;
-		glm::vec3 n = (x - this->center) / this->radius;
-		Hit hit(x, n, t, objIndex);
-		hits.push_back(hit);
+		if (t > 0) {
+			glm::vec3 x = origin + t * ray;
+			glm::vec3 n = (x - this->center) / this->radius;
+			Hit hit(x, n, t, objIndex);
+			hits.push_back(hit);
+
+		}
 
 		t = (-b - glm::sqrt(d)) / (2 * a);
-		x = origin + t * ray;
-		n = (x - this->center) / this->radius;
-		hit.x = x;
-		hit.n = n;
-		hit.t = t;
-		hits.push_back(hit);
+		if (t > 0) {
+			glm::vec3 x = origin + t * ray;
+			glm::vec3 n = (x - this->center) / this->radius;
+			Hit hit(x, n, t, objIndex);
+			hits.push_back(hit);
+		}
 	}
 }
 
