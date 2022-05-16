@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "Shape.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 using namespace std;
 
@@ -32,20 +33,46 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	int widthHeight = 1024;
-	shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
-	shared_ptr<Scene> scene = make_shared<Scene>();
-	shared_ptr<Shape> sphere = make_shared<Sphere>();
-	Light light;
-	light.position = glm::vec3(0, 3, 2);
-	scene->addObject(sphere);
-	scene->addCamera(cam);
-	scene->addLight(light);
+	
 
-	auto image = make_shared<Image>(widthHeight, widthHeight);
 
-	scene->draw(image);
+	
 
-	image->writeToFile("filename.png");
+
+	int sceneChoice = 1;
+	if (sceneChoice == 1) {
+		int widthHeight = 1024;
+		auto image = make_shared<Image>(widthHeight, widthHeight);
+
+		shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
+		shared_ptr<Scene> scene = make_shared<Scene>();
+
+		Light light(1, 2, 2);
+		light.intensity = .5;
+		Light light2(-1, 2, -1);
+		light2.intensity = .5;
+		
+		Shape* greenSphere = new Sphere();
+		greenSphere->translate(-.5, 0, -.5);
+		greenSphere->diffuse(0, 1, 0);
+		greenSphere->specular(1, 1, .5);
+		greenSphere->ambient(.1, .1, .1);
+		greenSphere->shiny(100);
+
+		Shape* planeGround = new Plane();
+
+		scene->addCamera(cam);
+		scene->addLight(light);
+		scene->addLight(light2);
+		scene->addObject(greenSphere);
+		scene->addObject(planeGround);
+
+		scene->draw(image);
+
+		image->writeToFile("filename.png");
+	}
+
+	ShellExecuteW(NULL, L"open", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\filename.png", L"", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\", SW_SHOW);
+
 	return 0;
 }

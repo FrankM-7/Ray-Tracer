@@ -10,7 +10,7 @@ void Scene::addCamera(shared_ptr<Camera> camera) {
 	this->camera = camera;
 }
 
-void Scene::addObject(shared_ptr<Shape> object) {
+void Scene::addObject(Shape* object) {
 	this->objects.push_back(object);
 }
 
@@ -41,8 +41,7 @@ void Scene::draw(shared_ptr<Image> image) {
 					lowestHit = hits.at(i);
 				}
 			}
-			// i have normal, eyevec, light vec. calc blinnphong
-			glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin);
+			glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin, this->objects);
 			image->setPixel(ctx, cty, color.r, color.g, color.b);
 		}
 		ctx = (ctx + 1) % camera->width;
