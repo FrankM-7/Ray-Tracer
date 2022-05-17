@@ -9,6 +9,7 @@ Shape::Shape() {
 	this->kd = glm::vec3(.8, .7, .7);
 	this->ks = glm::vec3(1.0, .9, .8);
 	this->s = 200.0f;
+	this->E = glm::mat4(1.0f);
 }
 
 void Shape::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex) {
@@ -21,8 +22,11 @@ bool Shape::intersects(glm::vec3 ray, glm::vec3 originRay, float distance) {
 
 void Shape::translate(float x, float y, float z) {
 	this->center = glm::vec3(x, y, z);
+	E *= glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
 }
-
+void Shape::scale(float x, float y, float z) {
+	E *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+}
 glm::vec3 Shape::getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects) {
 	glm::vec3 c = ka;
 	for (int i = 0; i < lights.size(); i++) {

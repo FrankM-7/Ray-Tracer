@@ -10,12 +10,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Image.h"
 #include "Camera.h"
 #include "Scene.h"
 #include "Shape.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Ellipsoid.h"
 
 using namespace std;
 
@@ -33,11 +36,6 @@ int main(int argc, char **argv)
 	//	image->setPixel(10, i, 255, 0, 0);
 	//}
 	// calculate ray directions for every pixel
-	
-
-
-	
-
 
 	int sceneChoice = 1;
 	if (sceneChoice == 1) {
@@ -61,10 +59,19 @@ int main(int argc, char **argv)
 
 		Shape* planeGround = new Plane();
 
+		Shape* ellipsoid = new Ellipsoid();
+		ellipsoid->translate(.5, 0, .5);
+		ellipsoid->scale(.5, .6, .2);
+		ellipsoid->diffuse(1.0, 0, 0);
+		ellipsoid->specular(1, 1, .5);
+		ellipsoid->ambient(.1, .1, .1);
+		ellipsoid->shiny(100);
+
 		scene->addCamera(cam);
 		scene->addLight(light);
 		scene->addLight(light2);
 		scene->addObject(greenSphere);
+		scene->addObject(ellipsoid);
 		scene->addObject(planeGround);
 
 		scene->draw(image);
