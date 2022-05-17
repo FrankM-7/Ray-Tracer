@@ -35,12 +35,15 @@ private:
 	glm::vec3 ks;
 	float s;
 public:
+	glm::mat4 E;
+
 	glm::vec3 center;
 	Shape();
 	virtual void hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex);
 	virtual bool intersects(glm::vec3 ray, glm::vec3 originRay, float distance);
 
 	void translate(float x, float y, float z);
+	void scale(float x, float y, float z);
 	void diffuse(float r, float g, float b);
 	void ambient(float r, float g, float b);
 	void shiny(float s);
