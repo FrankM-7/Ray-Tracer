@@ -10,6 +10,7 @@ Shape::Shape() {
 	this->ks = glm::vec3(1.0, .9, .8);
 	this->s = 200.0f;
 	this->E = glm::mat4(1.0f);
+	this->isReflective = false;
 }
 
 void Shape::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex) {
@@ -19,6 +20,9 @@ bool Shape::intersects(glm::vec3 ray, glm::vec3 originRay, float distance) {
 	cout << "should not go here" << endl;
 	return false;
 }
+void Shape::normalSet(float x, float y, float z) {
+	this->normal = glm::normalize(glm::vec3(x, y, z));
+}
 
 void Shape::translate(float x, float y, float z) {
 	this->center = glm::vec3(x, y, z);
@@ -27,7 +31,37 @@ void Shape::translate(float x, float y, float z) {
 void Shape::scale(float x, float y, float z) {
 	E *= glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
 }
+
+void Shape::scale(float s) {
+
+}
+
+glm::vec3 reflectionColor(vector<Shape*> objects, glm::vec3 incomingRay, glm::vec3 surfaceNormal) {
+	glm::vec3 newOutDir = glm::reflect(incomingRay, surfaceNormal);
+	vector<Hit> hits;
+	// for every object
+	for (int objInd = 0; objInd < objects.size(); objInd++) {
+		// check if ray hits object, if yes it will store hits in hits vector<Hit>
+		objects.at(objInd)->hit(newOutDir, this->camera->origin, hits, objInd);
+	}
+
+	if (hits.size() == 0) {
+		// color black 
+	}
+	else { // check which obj was hit first
+		Hit lowestHit = hits.at(0);
+		for (int i = 0; i < hits.size(); i++) {
+			if (hits.at(i).t < lowestHit.t) {
+				lowestHit = hits.at(i);
+			}
+		}
+		glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin, this->objects);
+
+}
 glm::vec3 Shape::getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects) {
+	if (this->isReflective) {
+		return reflectionColor(objects, glm::normalize(hit.x - camPos), hit.n);
+	}
 	glm::vec3 c = ka;
 	for (int i = 0; i < lights.size(); i++) {
 		glm::vec3 lHat = glm::normalize(lights.at(i).position - hit.x);
@@ -63,4 +97,8 @@ void Shape::shiny(float s) {
 }
 void Shape::specular(float r, float g, float b) {
 	this->ks = glm::vec3(r, g, b);
+}
+
+void Shape::reflective() {
+	this->isReflective = true;
 }

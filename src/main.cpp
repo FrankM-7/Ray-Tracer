@@ -45,35 +45,58 @@ int main(int argc, char **argv)
 		shared_ptr<Camera> cam = make_shared<Camera>(widthHeight, widthHeight, 45, 5, 'z', -1);
 		shared_ptr<Scene> scene = make_shared<Scene>();
 
-		Light light(1, 2, 2);
-		light.intensity = .5;
-		Light light2(-1, 2, -1);
+		Light light1(-1, 2, 1);
+		light1.intensity = .5;
+		Light light2(.5, -.5, 0);
 		light2.intensity = .5;
-		
-		Shape* greenSphere = new Sphere();
-		greenSphere->translate(-.5, 0, -.5);
-		greenSphere->diffuse(0, 1, 0);
-		greenSphere->specular(1, 1, .5);
-		greenSphere->ambient(.1, .1, .1);
-		greenSphere->shiny(100);
 
-		Shape* planeGround = new Plane();
+		Shape* redSphere = new Sphere();
+		redSphere->translate(.5, -.7, .5);
+		redSphere->scale(.3);
+		redSphere->diffuse(1, 0, 0);
+		redSphere->ambient(.1, .1, .1);
+		redSphere->specular(1, 1, .5);
+		redSphere->shiny(100);
 
-		Shape* ellipsoid = new Ellipsoid();
-		ellipsoid->translate(.5, 0, .5);
-		ellipsoid->scale(.5, .6, .2);
-		ellipsoid->diffuse(1.0, 0, 0);
-		ellipsoid->specular(1, 1, .5);
-		ellipsoid->ambient(.1, .1, .1);
-		ellipsoid->shiny(100);
+		Shape* blueSphere = new Sphere();
+		blueSphere->translate(1, -.7, 0);
+		blueSphere->scale(.3);
+		blueSphere->diffuse(0, 0, 1);
+		blueSphere->ambient(.1, .1, .1);
+		blueSphere->specular(1, 1, .5);
+		blueSphere->shiny(100);
 
-		scene->addCamera(cam);
-		scene->addLight(light);
+		Shape* refSphere1 = new Sphere();
+		refSphere1->translate(-.5, 0, -.5);
+		refSphere1->scale(1);
+		refSphere1->reflective();
+
+		Shape* refSphere2 = new Sphere();
+		refSphere2->translate(1.5, 0, -1.5);
+		refSphere2->scale(1);
+		refSphere2->reflective();
+
+		Shape* floor = new Plane();
+		floor->diffuse(1, 1, 1);
+		floor->ambient(.1, .1, .1);
+		floor->specular(0, 0, 0);
+		floor->shiny(0);
+
+		Shape* wall = new Plane();
+		wall->translate(0, 0, -3);
+		wall->normalSet(0, 0, 1);
+		wall->diffuse(1, 1, 1);
+		wall->ambient(.1, .1, .1);
+		wall->specular(0, 0, 0);
+		wall->shiny(0);
+
+		scene->addObject(redSphere);
+		scene->addObject(blueSphere);
+		scene->addObject(floor);
+		scene->addObject(wall);
+		scene->addLight(light1);
 		scene->addLight(light2);
-		scene->addObject(greenSphere);
-		scene->addObject(ellipsoid);
-		scene->addObject(planeGround);
-
+		scene->addCamera(cam);
 		scene->draw(image);
 
 		image->writeToFile("filename.png");
