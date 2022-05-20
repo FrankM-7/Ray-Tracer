@@ -36,31 +36,31 @@ void Shape::scale(float s) {
 
 }
 
-glm::vec3 reflectionColor(vector<Shape*> objects, glm::vec3 incomingRay, glm::vec3 surfaceNormal) {
+glm::vec3 reflectionColor(vector<Shape*> objects, glm::vec3 incomingRay, glm::vec3 surfaceNormal, glm::vec3 impact, vector<Light> lights, glm::vec3 camPos) {
 	glm::vec3 newOutDir = glm::reflect(incomingRay, surfaceNormal);
 	vector<Hit> hits;
 	// for every object
 	for (int objInd = 0; objInd < objects.size(); objInd++) {
 		// check if ray hits object, if yes it will store hits in hits vector<Hit>
-		objects.at(objInd)->hit(newOutDir, this->camera->origin, hits, objInd);
+		objects.at(objInd)->hit(newOutDir, impact, hits, objInd);
 	}
 
 	if (hits.size() == 0) {
 		// color black 
+		return glm::vec3(0, 0, 0);
 	}
-	else { // check which obj was hit first
-		Hit lowestHit = hits.at(0);
-		for (int i = 0; i < hits.size(); i++) {
-			if (hits.at(i).t < lowestHit.t) {
-				lowestHit = hits.at(i);
-			}
+	Hit lowestHit = hits.at(0);
+	for (int i = 0; i < hits.size(); i++) {
+		if (hits.at(i).t < lowestHit.t) {
+			lowestHit = hits.at(i);
 		}
-		glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin, this->objects);
-
+	}
+	return objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, impact, objects, newOutDir);
 }
-glm::vec3 Shape::getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects) {
+
+glm::vec3 Shape::getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects, glm::vec3 ray) {
 	if (this->isReflective) {
-		return reflectionColor(objects, glm::normalize(hit.x - camPos), hit.n);
+		return reflectionColor(objects, ray, hit.n, hit.x, lights, camPos);
 	}
 	glm::vec3 c = ka;
 	for (int i = 0; i < lights.size(); i++) {

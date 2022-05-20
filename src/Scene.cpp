@@ -41,7 +41,7 @@ void Scene::draw(shared_ptr<Image> image) {
 					lowestHit = hits.at(i);
 				}
 			}
-			glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin, this->objects);
+			glm::vec3 color = objects.at(lowestHit.objIndex)->getColor(lights, lowestHit, this->camera->origin, this->objects,ray);
 			image->setPixel(ctx, cty, color.r, color.g, color.b);
 		}
 		ctx = (ctx + 1) % camera->width;

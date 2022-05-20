@@ -19,7 +19,7 @@ void Plane::normalSet(float x, float y, float z) {
 
 void Plane::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex) {
 	float t = glm::dot(this->normal, (this->center - origin)) / (glm::dot(this->normal, ray));
-	if (t > 0) {
+	if (t > 0.001) {
 		glm::vec3 x = origin + t * ray;
 		Hit hit(x, this->normal, t, objIndex);
 		hits.push_back(hit);

@@ -92,6 +92,8 @@ int main(int argc, char **argv)
 
 		scene->addObject(redSphere);
 		scene->addObject(blueSphere);
+		scene->addObject(refSphere1);
+		scene->addObject(refSphere2);
 		scene->addObject(floor);
 		scene->addObject(wall);
 		scene->addLight(light1);
@@ -102,7 +104,7 @@ int main(int argc, char **argv)
 		image->writeToFile("filename.png");
 	}
 
-	ShellExecuteW(NULL, L"open", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\filename.png", L"", L"C:\\Users\\Frank M\\Desktop\\RayTracer\\build\\", SW_SHOW);
+	ShellExecuteW(NULL, L"open", L"C:\\Users\\Frank M\\Desktop\\Projects\\RayTracer\\build\\filename.png", L"", L"C:\\Users\\Frank M\\Desktop\\Projects\\RayTracer\\build\\", SW_SHOW);
 
 	return 0;
 }

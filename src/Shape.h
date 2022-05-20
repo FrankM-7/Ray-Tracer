@@ -52,7 +52,7 @@ public:
 	void specular(float r, float g, float b);
 	void reflective();
 
-	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects);
+	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects, glm::vec3 ray);
 };
 
 #endif
