@@ -34,22 +34,25 @@ private:
 	glm::vec3 kd;
 	glm::vec3 ks;
 	float s;
+	bool isReflective;
 public:
 	glm::mat4 E;
-
+	glm::vec3 normal;
 	glm::vec3 center;
 	Shape();
 	virtual void hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex);
 	virtual bool intersects(glm::vec3 ray, glm::vec3 originRay, float distance);
-
+	virtual void normalSet(float x, float y, float z);
 	void translate(float x, float y, float z);
 	void scale(float x, float y, float z);
+	virtual void scale(float s);
 	void diffuse(float r, float g, float b);
 	void ambient(float r, float g, float b);
 	void shiny(float s);
 	void specular(float r, float g, float b);
+	void reflective();
 
-	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects);
+	glm::vec3 getColor(vector<Light> lights, Hit hit, glm::vec3 camPos, vector<Shape*> objects, glm::vec3 ray);
 };
 
 #endif

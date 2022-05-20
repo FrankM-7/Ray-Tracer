@@ -4,12 +4,12 @@
 using namespace std;
 
 Plane::Plane() {
-	this->position = glm::vec3(0, -1, 0);
+	this->center = glm::vec3(0, -1, 0);
 	this->normal = glm::vec3(0, 1, 0);
 }
 
 void Plane::translate(float x, float y, float z) {
-	this->position = glm::vec3(x, y, z);
+	this->center = glm::vec3(x, y, z);
 }
 
 void Plane::normalSet(float x, float y, float z) {
@@ -18,8 +18,8 @@ void Plane::normalSet(float x, float y, float z) {
 }
 
 void Plane::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex) {
-	float t = glm::dot(this->normal, (this->position - origin)) / (glm::dot(this->normal, ray));
-	if (t > 0) {
+	float t = glm::dot(this->normal, (this->center - origin)) / (glm::dot(this->normal, ray));
+	if (t > 0.001) {
 		glm::vec3 x = origin + t * ray;
 		Hit hit(x, this->normal, t, objIndex);
 		hits.push_back(hit);
@@ -27,7 +27,7 @@ void Plane::hit(glm::vec3 ray, glm::vec3 origin, vector<Hit>& hits, int objIndex
 }
 
 bool Plane::intersects(glm::vec3 ray, glm::vec3 originRay, float distance) {
-	float t = glm::dot(this->normal, (this->position - originRay)) / (glm::dot(this->normal, ray));
+	float t = glm::dot(this->normal, (this->center - originRay)) / (glm::dot(this->normal, ray));
 		
 	if (t > 0.0001 && t < distance) {
 		return true;
